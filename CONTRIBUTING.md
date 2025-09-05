@@ -1,4 +1,4 @@
-# Contributing to CPython
+# Contributing to Python-Executable
 
 Thank you for your interest in contributing! 🙌  
 We welcome all kinds of contributions, including:
@@ -24,5 +24,6 @@ We welcome all kinds of contributions, including:
 - If you discover a bug, please open a new Issue.
 - Provide steps to reproduce the problem.
 - Include examples or screenshots if possible.
+
 
 Thank you for your time and contributions! 💙
