@@ -1,33 +1,95 @@
-### Py to EXE Converter (with PyQt5 GUI)
-
-### **Overview**
-This project provides a **graphical tool built with PyQt5** that allows developers to easily convert their Python scripts (`.py`) into Windows executables (`.exe`).  
-It integrates **PyInstaller** in the backend while offering a modern user interface to handle files, folders, and additional build options.
+### **Executable to Python converter**
 
 ---
+
+### **About**
+
+- **This project provides a graphical tool built with `PyQt5` that allows developers to easily convert their Python scripts `(.py)` into Windows executables `(.exe)`.**
+ - **It integrates PyInstaller in the backend while offering a modern user interface to handle files, folders, and additional build options.**
+
+ ---
 
 ### **Features**
-- **File Selection**:  
-  - Convert a single `.py` file.  
-  - Convert multiple `.py` files at once.  
-  - Add complete folders containing scripts/resources.  
-
-- **Build Options**:  
-  - Enable/disable console window (GUI mode or CLI mode).  
-  - Add a custom **icon** (`.ico`).  
-  - Include a **manifest file** for advanced configuration.  
-
-- **Output Management**:  
-  - Automatically generates the `.exe` in an `output/` directory.  
 
 ---
 
-### **Requirements**
-- Python **3.8+**
-- [PyInstaller](https://pyinstaller.org/)
-- [PyQt5](https://pypi.org/project/PyQt5/)
+- **Converting files from `(.Py)` format to `(.exe)` format.**
+- **Convert multiple files at once `(.py)`.**
+- **Add entire `folders` containing texts/resources.**
 
-**You can install them quickly with:**
+---
+### **Options**
+- **Enable/disable console window (`GUI` mode or `CLI` mode).**
+- **Add a custom icon `(.ico)`.**
+- **Include a `(.manifest)` file for advanced configuration.**
 
-```bash
-pip install pyinstaller pyqt5
+---
+
+### **OUTPUT**
+
+- **Automatically creates in the directory Folder `output`.**
+
+```
+output\
+┗─> file.exe
+```
+
+---
+
+### **Installation**
+
+- **Download Version Python 3.9+**
+- [![Download Python](https://img.shields.io/badge/Download-Python-blue?logo=python&logoColor=white)](https://www.python.org/ftp/python/3.13.7/python-3.13.7-amd64.exe)
+
+- **Requirements**
+- **[PyInstaller](https://pyinstaller.org/)**
+- **[PyQt5](https://pypi.org/project/PyQt5/)**
+
+- **install Packages Python `pip`.**
+
+```
+$ pip install pyinstaller pyqt5
+```
+### **OR**
+
+```
+$ pip install -r requirements.txt
+```
+
+### **OR**
+
+```
+$ setup.bat
+```
+
+---
+
+### **Run**
+
+```
+Ppython PyToExe.py
+```
+
+---
+
+### **See the instructions**
+
+- **[CODE OF CONDUCT](https://github.com/wsl-iq/Python-Executable/blob/main/CODE_OF_CONDUCT.md)**
+
+- **[CONTRIBUTING](https://github.com/wsl-iq/Python-Executable/blob/main/CONTRIBUTING.md)**
+- **[MIT License](https://github.com/wsl-iq/Python-Executable/blob/main/LICENSE)**
+
+---
+
+### **My WebSite**
+- **[wsl-iq.github.io/](https://wsl-iq.github.io/)**
+
+---
+
+### **Languages**
+
+| Arabic (العربية) | English |
+|------------------|---------|
+|✅               |❌ **SOON**|
+
+---
