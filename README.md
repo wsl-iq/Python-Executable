@@ -9,7 +9,25 @@
 
  ---
 
-### **Features**
+### **what Features?**
+
+---
+
+**Version `2.0.0`**
+
+- **settings json**
+- **light theme**
+- **interpreter choice**
+- **psutil monitor `CPU` + `RAM`**
+- **advanced PyInstaller options**
+- **drag & drop**
+- **log export**
+- **generate `.spec`**
+- **open folders**
+- **reset defaults**
+- **sound notify**
+- **chacking in Update**
+- **Request admin privileges radio button**
 
 ---
 
@@ -93,3 +111,5 @@ Ppython PyToExe.py
 |✅               |❌ **SOON**|
 
 ---
+
+
