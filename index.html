@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Python To Executable - تحويل بايثون إلى ملفات تنفيذية</title>
+    <link rel="stylesheet" href="code/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="image/icon.png" alt="شعار البرنامج" class="logo">
+                <span class="logo-text">Python To Executable</span>
+            </div>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">حول البرنامج</a>
+                <a href="#features" class="nav-link">الميزات</a>
+                <a href="#download" class="nav-link">التحميل</a>
+                <a href="#github" class="nav-link">GitHub</a>
+                <div class="language-switcher">
+                    <button id="langToggle" class="lang-btn">EN</button>
+                </div>
+            </div>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-ar="من بايثون إلى ملف تنفيذي" data-en="From Python To Executable">من بايثون إلى ملف تنفيذي</h1>
+                <p class="hero-description" data-ar="أداة متطورة لتحويل نصوص بايثون (.py) إلى ملفات تنفيذية (.exe) لنظام ويندوز" data-en="Advanced tool to convert Python scripts (.py) to executable files (.exe) for Windows">أداة متطورة لتحويل نصوص بايثون (.py) إلى ملفات تنفيذية (.exe) لنظام ويندوز</p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn primary-btn" data-ar="تحميل الآن" data-en="Download Now">تحميل الآن</a>
+                    <a href="#about" class="btn secondary-btn" data-ar="تعرف أكثر" data-en="Learn More">تعرف أكثر</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="image/interface.png" alt="لقطة شاشة للبرنامج">
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title" data-ar="حول البرنامج" data-en="About the Program">حول البرنامج</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p data-ar="يوفر هذا المشروع أداة رسومية مبنية على PyQt5، تُمكّن المطورين من تحويل نصوص بايثون (.py) بسهولة إلى ملفات قابلة للتنفيذ على نظام ويندوز (.exe). يدمج البرنامج PyInstaller في الواجهة الخلفية، مع توفير واجهة مستخدم حديثة لإدارة الملفات والمجلدات وخيارات البناء الإضافية." data-en="This project provides a GUI tool built on PyQt5, enabling developers to easily convert Python scripts (.py) into executable files for Windows (.exe). The program integrates PyInstaller in the backend, while providing a modern user interface for managing files, folders, and additional build options.">يوفر هذا المشروع أداة رسومية مبنية على PyQt5، تُمكّن المطورين من تحويل نصوص بايثون (.py) بسهولة إلى ملفات قابلة للتنفيذ على نظام ويندوز (.exe). يدمج البرنامج PyInstaller في الواجهة الخلفية، مع توفير واجهة مستخدم حديثة لإدارة الملفات والمجلدات وخيارات البناء الإضافية.</p>
+                    
+                    <h3 data-ar="الميزات الرئيسية" data-en="Key Features">الميزات الرئيسية</h3>
+                    <ul>
+                        <li data-ar="واجهة مستخدم عربية بدعم كامل للغة العربية" data-en="Arabic user interface with full Arabic language support">واجهة مستخدم عربية بدعم كامل للغة العربية</li>
+                        <li data-ar="تحويل ملفات بايثون إلى ملفات تنفيذية لـ Windows" data-en="Convert Python files to Windows executables">تحويل ملفات بايثون إلى ملفات تنفيذية لـ Windows</li>
+                        <li data-ar="دعم البناء الفردي والجماعي للملفات" data-en="Support for single and batch file building">دعم البناء الفردي والجماعي للملفات</li>
+                        <li data-ar="تحليل تلقائي للتبعيات والمكتبات المطلوبة" data-en="Automatic analysis of dependencies and required libraries">تحليل تلقائي للتبعيات والمكتبات المطلوبة</li>
+                        <li data-ar="خيارات أمان متقدمة مثل تشويش الكود والحماية من التصحيح" data-en="Advanced security options like code obfuscation and anti-debug protection">خيارات أمان متقدمة مثل تشويش الكود والحماية من التصحيح</li>
+                        <li data-ar="نظام إضافات قابل للتوسيع" data-en="Extensible plugin system">نظام إضافات قابل للتوسيع</li>
+                        <li data-ar="تقارير مفصلة عن عملية البناء" data-en="Detailed build process reports">تقارير مفصلة عن عملية البناء</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="image/PyCLI.png" alt="واجهة البرنامج">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title" data-ar="الميزات المتقدمة" data-en="Advanced Features">الميزات المتقدمة</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 data-ar="تحليل التبعيات" data-en="Dependency Analysis">تحليل التبعيات</h3>
+                    <p data-ar="اكتشاف تلقائي للمكتبات والوحدات المطلوبة لضمان تشغيل سليم للملف النهائي" data-en="Automatic detection of required libraries and modules to ensure proper execution of the final file">اكتشاف تلقائي للمكتبات والوحدات المطلوبة لضمان تشغيل سليم للملف النهائي</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 data-ar="خيارات الأمان" data-en="Security Options">خيارات الأمان</h3>
+                    <p data-ar="تشويش الكود، الحماية من التصحيح، والتوقيع الرقمي للملفات التنفيذية" data-en="Code obfuscation, anti-debug protection, and digital signing of executable files">تشويش الكود، الحماية من التصحيح، والتوقيع الرقمي للملفات التنفيذية</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3 data-ar="نظام الإضافات" data-en="Plugin System">نظام الإضافات</h3>
+                    <p data-ar="إمكانية توسيع وظائف البرنامج عبر نظام إضافات مرن وقابل للتخصيص" data-en="Extend program functionality through a flexible and customizable plugin system">إمكانية توسيع وظائف البرنامج عبر نظام إضافات مرن وقابل للتخصيص</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 data-ar="تحسين الأداء" data-en="Performance Optimization">تحسين الأداء</h3>
+                    <p data-ar="خيارات متقدمة لتحسين أداء الملفات التنفيذية وتقليل حجمها" data-en="Advanced options to optimize executable file performance and reduce their size">خيارات متقدمة لتحسين أداء الملفات التنفيذية وتقليل حجمها</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-archive"></i>
+                    </div>
+                    <h3 data-ar="بناء متعدد" data-en="Multi-Build">بناء متعدد</h3>
+                    <p data-ar="إمكانية بناء عدة ملفات بايثون في وقت واحد مع إعدادات مخصصة لكل منها" data-en="Ability to build multiple Python files simultaneously with custom settings for each">إمكانية بناء عدة ملفات بايثون في وقت واحد مع إعدادات مخصصة لكل منها</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 data-ar="تقارير مفصلة" data-en="Detailed Reports">تقارير مفصلة</h3>
+                    <p data-ar="توليد تقارير شاملة عن عملية البناء تشمل التبعيات والأخطاء والتحسينات" data-en="Generate comprehensive reports on the build process including dependencies, errors, and optimizations">توليد تقارير شاملة عن عملية البناء تشمل التبعيات والأخطاء والتحسينات</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="download">
+        <div class="container">
+            <h2 class="section-title" data-ar="تحميل البرنامج" data-en="Download the Program">تحميل البرنامج</h2>
+            <p class="section-subtitle" data-ar="اختر النسخة المناسبة لنظام التشغيل الخاص بك" data-en="Choose the version suitable for your operating system">اختر النسخة المناسبة لنظام التشغيل الخاص بك</p>
+            
+            <div class="download-options">
+                <div class="download-card">
+                    <div class="os-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <h3 data-ar="Windows" data-en="Windows">Windows</h3>
+                    <div class="download-links">
+                        <a href="#" class="download-link" data-ar="Windows 32-bit" data-en="Windows 32-bit">
+                            <i class="fas fa-download"></i>
+                            <span>Windows 32-bit</span>
+                        </a>
+                        <a href="#" class="download-link" data-ar="Windows 64-bit" data-en="Windows 64-bit">
+                            <i class="fas fa-download"></i>
+                            <span>Windows 64-bit</span>
+                        </a>
+                        <a href="#" class="download-link" data-ar="Windows .MSI" data-en="Windows .MSI">
+                            <i class="fas fa-download"></i>
+                            <span>Windows .MSI</span>
+                        </a>
+                        <a href="#" class="download-link" data-ar="Windows AMD64" data-en="Windows AMD64">
+                            <i class="fas fa-download"></i>
+                            <span>Windows AMD64</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="system-requirements">
+                <h3 data-ar="متطلبات النظام" data-en="System Requirements">متطلبات النظام</h3>
+                <ul>
+                    <li data-ar="Windows 7 , Windows 8 , Windows 8.1 , Windows 10 , Windows 11" data-en="Windows 7 , Windows 8 , Windows 8.1 , Windows 10 , Windows 11">Windows 7 , Windows 8 , Windows 8.1 , Windows 10 , Windows 11</li>
+                    <li data-ar="Python 3.6 أو أحدث (مثبت مسبقاً)" data-en="Python 3.6 or later (pre-installed)">Python 3.6 أو أحدث (مثبت مسبقاً)</li>
+                    <li data-ar="2GB RAM كحد أدنى، 4GB موصى بها" data-en="2GB RAM minimum, 4GB recommended">2GB RAM كحد أدنى، 4GB موصى بها</li>
+                    <li data-ar="200MB مساحة حرة على القرص الصلب" data-en="200MB free disk space">200MB مساحة حرة على القرص الصلب</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="github" class="github">
+        <div class="container">
+            <h2 class="section-title" data-ar="المشروع مفتوح المصدر" data-en="Open Source Project">المشروع مفتوح المصدر</h2>
+            <div class="github-content">
+                <div class="github-text">
+                    <p data-ar="هذا المشروع مفتوح المصدر ومتاح للجميع على GitHub. يمكنك الاطلاع على الكود المصدري، المساهمة في التطوير، والإبلاغ عن المشاكل." data-en="This project is open source and available to everyone on GitHub. You can view the source code, contribute to development, and report issues.">هذا المشروع مفتوح المصدر ومتاح للجميع على GitHub. يمكنك الاطلاع على الكود المصدري، المساهمة في التطوير، والإبلاغ عن المشاكل.</p>
+                    <a href="https://github.com/wsl-iq/Python-Executable" class="github-btn" target="_blank">
+                        <i class="fab fa-github"></i>
+                        <span data-ar="عرض على GitHub" data-en="View on GitHub">عرض على GitHub</span>
+                    </a>
+                </div>
+                <div class="github-stats">
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span class="stat-number" id="stars">0</span>
+                        <span data-ar="نجوم" data-en="Stars">نجوم</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-code-branch"></i>
+                        <span class="stat-number" id="forks">0</span>
+                        <span data-ar="فروع" data-en="Forks">فروع</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-eye"></i>
+                        <span class="stat-number" id="watchers">0</span>
+                        <span data-ar="مشاهدات" data-en="Watchers">مشاهدات</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-ar="From Python To Executable" data-en="From Python To Executable">From Python To Executable</h3>
+                    <p data-ar="أداة متطورة لتحويل نصوص بايثون إلى ملفات تنفيذية لنظام ويندوز" data-en="Advanced tool to convert Python scripts to executable files for Windows">أداة متطورة لتحويل نصوص بايثون إلى ملفات تنفيذية لنظام ويندوز</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-ar="روابط سريعة" data-en="Quick Links">روابط سريعة</h4>
+                    <ul>
+                        <li><a href="#about" data-ar="حول البرنامج" data-en="About">حول البرنامج</a></li>
+                        <li><a href="#features" data-ar="الميزات" data-en="Features">الميزات</a></li>
+                        <li><a href="#download" data-ar="التحميل" data-en="Download">التحميل</a></li>
+                        <li><a href="#github" data-ar="GitHub" data-en="GitHub">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-ar="اتصل بنا" data-en="Contact Us">اتصل بنا</h4>
+                    <ul>
+                        <li><a href="https://github.com/wsl-iq" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+                        <li><a href="mailto:developer@example.com"><i class="fas fa-envelope"></i> البريد الإلكتروني</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-ar="تم التطوير بواسطة محمد الباقر © 2025. جميع الحقوق محفوظة." data-en="Developed by Mohammed Al-Baqer © 2025. All rights reserved.">تم التطوير بواسطة محمد الباقر © 2025. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="code/script.js"></script>
+</body>
+</html>
