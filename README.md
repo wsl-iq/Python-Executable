@@ -359,11 +359,11 @@ Ppython PyToExe.py
 ---
 
 ### **Download**
-**[Python Executable 32/64 Bit]()**
+**[Python Executable 32/64 Bit](https://github.com/wsl-iq/Python-Executable/releases/download/3.0.0/PythonExecutable.zip)**
 
-**[Python Executable MSI]()**
+**[Python Executable MSI](https://github.com/wsl-iq/Python-Executable/releases/download/3.0.0/PythonExecutable.msi)**
 
-**[PythonExecutable Later V1 , V2]()**
+**[PythonExecutable Later V1 , V2](https://github.com/wsl-iq/Python-Executable/releases)**
 
 ---
 
