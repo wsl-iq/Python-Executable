@@ -1,2 +1,6 @@
 PyQt5
-pyinstaller
+GPUtil
+matplotlib
+numpy
+plyer
+psutil
