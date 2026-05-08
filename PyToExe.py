@@ -1,8 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Copyright (c) 2025 
+# Copyright (c) 2025 - 2026 
 # Developer : Mohammed Al-Baqer
 
+# ar.json -> العربية  
+# en.json -> English
+# fr.json -> Français
+# de.json -> Deutsch
+# es.json -> Español
+# it.json -> Italiano
+# ru.json -> Русский
+# zh.json -> 中文
+# ja.json -> 日本語
+# ko.json -> 한국어
+# hi.json -> हिंदी
+# ku.json -> کوردی
+# fa.json -> فارسی
+# mx.json -> Español México
+# ur.json -> اردو
+# pr.json -> Brasil
+# tr.json -> Türkçe
+# he.json -> עברית
+# pt.json -> Português
+
+from email import utils
 import os
 from pyclbr import Class
 import sys
@@ -23,6 +44,18 @@ import struct
 import shlex
 import winsound
 import tempfile
+import platform
+import py_compile
+import zipfile
+import io
+import hashlib
+import tempfile
+import threading
+import subprocess
+import shutil
+import stat
+import warnings; warnings.filterwarnings("ignore", category=DeprecationWarning)
+# from Manifest.ManifestEdition import ManifestEditor
 from collections import deque
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -33,6 +66,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Optional, Any
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject, QTimer
 from PyQt5.QtCore import QSize
+from PyQt5.QtWidgets import QFontDialog, QAction
 from PyQt5.QtGui import QIcon, QPalette, QColor, QFont
 from PyQt5.QtWidgets import QColorDialog
 from PyQt5.QtWidgets import QDialog
@@ -43,7 +77,6 @@ from PyQt5.QtWidgets import (
     QHBoxLayout, QVBoxLayout, QGroupBox, QComboBox, QProgressBar, QMenu, QAction,
     QTabWidget, QSpinBox, QDoubleSpinBox, QTextEdit, QSplitter, QInputDialog
 )
-
 
 SETTINGS_FILE = "settings.json"
 LOG_FILE = "log.txt"
@@ -87,7 +120,7 @@ DEFAULT_SETTINGS = {
     },
     "build_system": "PyInstaller",
     "platform": "win32",
-    "theme": "light",
+    "theme": "dark",
     "language": "ar",
     "virtual_env": "",
     "template": "مخصص (Custom)",
@@ -96,11 +129,54 @@ DEFAULT_SETTINGS = {
     "ide_integration": {
         "vscode": False,
         "pycharm": False
+    },
+     "font": {
+        "family": "Segoe UI",
+        "size": 10,
+        "weight": 50
     }
 }
 
-PATHSEP = ";" if os.name == "nt" else ":"
 
+S = "\033[0m"        # Reset
+R = "\033[91;1m"     # Red
+G = "\033[92;1m"     # Green
+B = "\033[94;1m"     # Blue
+Y = "\033[93;1m"     # Yellow
+C = "\033[96;1m"     # Cyan
+M = "\033[95;1m"     # Magenta
+W = "\033[97;1m"     # White
+D = "\033[90;1m"     # Grey
+P = "\033[38;5;198m" # Pink
+O = "\033[38;5;202m" # Orange
+
+
+PATHSEP = ";" if os.name == "nt" else ":"
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+__VersionApplication__ = "v3.2.0"
+
+OS = B + "[OS]" + W
+try:
+    import platform
+    pos = platform.system()
+except Exception:
+    pos = "Unknown"
+
+if pos == "Windows":
+    os.system('cls')
+    print(f"{OS} {G}Detected Windows System{W}")
+
+elif pos == "Linux":
+    os.system('clear')
+    print(f"{OS} {R}Detected Linux System\nSorry some features may not work!{W}")
+    sys.exit(0)
+
+elif pos == "Darwin":
+    os.system('clear')
+    print(f"{OS} {R}Detected macOS System\nSorry some features may not work!{W}")
+    sys.exit(0)
+
+    
 class LanguageManager:
     def __init__(self, settings_path="settings.json", languages_dir="languages"):
         self.languages_dir = languages_dir
@@ -119,47 +195,34 @@ class LanguageManager:
             with open(self.settings_path, "r", encoding="utf-8") as f:
                 settings = json.load(f)
 
-            lang_code = settings.get("language", "ar")
+            LamguageCoding = settings.get("language", "ar")
             
-            if isinstance(lang_code, list):
-                lang_code = lang_code[0] if lang_code else "ar"
+            if isinstance(LamguageCoding, list):
+                LamguageCoding = LamguageCoding[0] if LamguageCoding else "ar"
                 
-            if not isinstance(lang_code, str):
-                lang_code = "ar"
+            if not isinstance(LamguageCoding, str):
+                LamguageCoding = "ar"
 
-            return self.LoadLanguages(lang_code)
+            return self.LoadLanguages(LamguageCoding)
             
         except Exception as e:
             print(f"[Language] Error loading language from settings: {e}")
             return self.LoadLanguages("ar")
 
-    def LoadLanguages(self, lang_code: str):
-        lang_file = os.path.join(self.languages_dir, f"{lang_code}.json")
+    def LoadLanguages(self, LamguageCoding: str):
+        lang_file = os.path.join(self.languages_dir, f"{LamguageCoding}.json")
         try:
             if not os.path.exists(lang_file):
-                print(f"[Language] Language file {lang_code}.json not found, using default language (ar)")
+                print(f"[Language] Language file {LamguageCoding}.json not found, using default language (ar)")
                 lang_file = os.path.join(self.languages_dir, "ar.json")
 
             with open(lang_file, "r", encoding="utf-8") as f:
                 self.translations = json.load(f)
 
-            self.current_language = lang_code
+            self.current_language = LamguageCoding
             
-            S = "\033[0m"        # Reset
-            R = "\033[91;1m"     # Red
-            G = "\033[92;1m"     # Green
-            B = "\033[94;1m"     # Blue
-            Y = "\033[93;1m"     # Yellow
-            C = "\033[96;1m"     # Cyan
-            M = "\033[95;1m"     # Magenta
-            W = "\033[97;1m"     # White
-            D = "\033[90;1m"     # Grey
-            P = "\033[38;5;198m" # Pink
-            O = "\033[38;5;202m" # Orange
-            
-            print(f"[Language] Language loaded -> {lang_code}\n")
-            os.system('cls' if os.name == 'nt' else 'clear')
-            print(f"{C}From Python To Executable\n{Y}Developer {W}: {O}Mohammed Al-Baqer\n{B}Instagram {W}: {P}@wsl.iq{W}")
+            Language = "\033[92;1m" + "[" + "\033[94;1m" + "Language" + "\033[92;1m" + "]" + "\033[95;1m"
+            print(f"{Language} Language loaded -> {LamguageCoding}")
 
             if not self.translations.get("ui"):
                 self.translations["ui"] = {
@@ -176,7 +239,7 @@ class LanguageManager:
                 }
             return True
         except Exception as e:
-            print(f"[Language] Error loading language {lang_code}: {e}")
+            print(f"[Language] Error loading language {LamguageCoding}: {e}")
             return False
 
     def get(self, key: str, default: str = None) -> str:
@@ -339,7 +402,7 @@ class BuildWorker(QObject):
                 ok = False
                 break
             display_cmd = " ".join(map(str, cmd))
-            self.line.emit(f"\n=== تشغيل: {display_cmd}\n")
+            self.line.emit(f"\n=== ON: {display_cmd}\n")
             try:
                 with subprocess.Popen(
                     cmd,
@@ -534,10 +597,20 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.settings = {}
         self.LoadSettings()
+        
+        font_data = self.settings.get("font", {})
+        restored_font = QFont(
+            font_data.get("family", "Segoe UI"),
+            font_data.get("size", 10),
+            font_data.get("weight", 50)
+        )
+        self.current_font = restored_font
+        QApplication.instance().setFont(restored_font)
+
 
         self.lang_manager = LanguageManager()
         self.lang_manager.LoadLanguages("ar")
-        self.setWindowTitle(self.lang_manager.tr("app_title", "From Python To Executable v3.1.0"))
+        self.setWindowTitle(self.lang_manager.tr("app_title", f"(From Python To Executable {__VersionApplication__})"))
         self.resize(1200, 800)
         self.icon_path = r"icon\icon.png" if os.path.isfile(r"icon\icon.png") else None
         self.shield_icon = r"icon\run.ico" if os.path.isfile(r"icon\run.ico") else self.icon_path
@@ -592,12 +665,10 @@ class MainWindow(QMainWindow):
 
         os.startfile(bat_path)
         QCoreApplication.quit()
-
-
         
-    def ChangeLanguage(self, lang_code: str):
-        if self.lang_manager.LoadLanguages(lang_code):
-            self.settings["language"] = lang_code
+    def ChangeLanguage(self, LamguageCoding: str):
+        if self.lang_manager.LoadLanguages(LamguageCoding):
+            self.settings["language"] = LamguageCoding
             self.SaveSettings()
             self.RefreshGUI()
 
@@ -606,16 +677,44 @@ class MainWindow(QMainWindow):
                 "en": "Language changed to (English)",
                 "fr": "La langue a été changée en (Français)",
                 "ru": "Язык изменён на (Русский)",
-                "zh": "语言已更改为 (中文)"
-            }.get(lang_code, "Language changed.")
+                "zh": "语言已更改为 (中文)",
+                "ja": "言語が（日本語）に変更されました",
+                "de": "Sprache geändert zu (Deutsch)",
+                "es": "Idioma cambiado a (Español)",
+                "pt": "Idioma alterado para (Português)",
+                "it": "Lingua cambiata in (Italiano)",
+                "ko": "언어가 (한국어)로 변경되었습니다",
+                "hi": "भाषा (हिंदी) में बदल गई है",
+                "ku": "زمان بۆ (کوردی) گۆڕدرا",
+                "fa": "زبان به (فارسی) تغییر یافت",
+                "mx": "Idioma cambiado a (Español México)",
+                "ur": "زبان (اردو) میں تبدیل ہوگئی ہے",
+                "pr": "Idioma alterado para (Português Brasil)",
+                "tr": "Dil (Türkçe) olarak değiştirildi",
+                "he": "השפה שונתה ל(עברית)",
+            }.get(LamguageCoding, "Language changed.")
 
             restart_q = {
                 "ar": "هل تريد إعادة تشغيل البرنامج الآن لتطبيق التغييرات؟",
                 "en": "Do you want to restart now to apply changes?",
                 "fr": "Voulez-vous redémarrer maintenant pour appliquer les modifications ?",
                 "ru": "Хотите перезапустить сейчас?",
-                "zh": "是否现在重新启动？"
-            }.get(lang_code, "Restart now?")
+                "zh": "是否现在重新启动？",
+                "ja": "今すぐ再起動しますか？",
+                "de": "Möchten Sie jetzt neu starten, um die Änderungen anzuwenden?",
+                "es": "¿Desea reiniciar ahora para aplicar los cambios?",
+                "pt": "Deseja reiniciar agora para aplicar as alterações?",
+                "it": "Vuoi riavviare ora per applicare le modifiche?",
+                "ko": "변경 사항을 적용하려면 지금 다시 시작하시겠습니까?",
+                "hi": "क्या आप परिवर्तन लागू करने के लिए अभी पुनः आरंभ करना चाहते हैं?",
+                "ku": "ئایا دەتەوێت ئێستا دووبارە دەستپێبکەیت بۆ ئەنجامدانی گۆڕانکاریەکان؟",
+                "fa": "آیا می‌خواهید برای اعمال تغییرات اکنون راه‌اندازی مجدد کنید؟",
+                "mx": "¿Desea reiniciar ahora para aplicar los cambios?",
+                "ur": "کیا آپ تبدیلیاں لاگو کرنے کے لیے ابھی دوبارہ شروع کرنا چاہتے ہیں؟",
+                "pr": "Deseja reiniciar agora para aplicar as alterações?",
+                "tr": "Değişiklikleri uygulamak için şimdi yeniden başlatmak ister misiniz?",
+                "he": "האם ברצונך להפעיל מחדש כעת כדי להחיל את השינויים?"
+            }.get(LamguageCoding, "Restart now?")
 
             QMessageBox.information(self,
                                     self.lang_manager.tr("language", "اللغة"),
@@ -629,9 +728,9 @@ class MainWindow(QMainWindow):
             if reply == QMessageBox.Yes:
                 self.RestartApplication()
 
-            
     def LoadLanguagesFromSettings(self):
         try:
+            # os.system('cls' if os.name == 'nt' else 'clear')
             if not hasattr(self, 'settings') or not self.settings:
                 self.LoadSettings()
                 
@@ -657,7 +756,7 @@ class MainWindow(QMainWindow):
 
     def ApplyLanguage(self):
         tr = self.lang_manager.tr        
-        self.setWindowTitle(self.lang_manager.tr("app_title", "from Python To Executable v3.1.0"))
+        self.setWindowTitle(self.lang_manager.tr(f"app_title", f"(From Python To Executable {__VersionApplication__})"))
         self.UpdateMenusText()
         self.UpdateTextGUI()
     
@@ -803,7 +902,7 @@ class MainWindow(QMainWindow):
         except Exception:
             pass
         
-        try: # entryLabel خيارات نظام التشغيل
+        try: # 
             addtab = self.entryLabel
             addtab.setText(tr("options_os_system", "خيارات نظام التشغيل", "OS System Options", "Options du système d'exploitation", "Параметры ОС", "操作系统选项"))
         except Exception:
@@ -1166,6 +1265,12 @@ class MainWindow(QMainWindow):
         action_check_updates.triggered.connect(self.check_updates)
         helpMenu.addAction(action_check_updates)
         
+        
+        HaveProblem = QAction(self.lang_manager.tr("have_problem", "لدي مشكلة", "I Have a Problem", "J'ai un problème", "У меня проблема", "我有一个问题"), self)
+        HaveProblem.triggered.connect(self.have_problem)
+        helpMenu.addAction(HaveProblem)
+        
+        
         action_docs = QAction(self.lang_manager.tr("documentation", "الوثائق", "Documentation", "Documentation", "Документация", "文档"), self)
         action_docs.triggered.connect(self.show_documentation)
         helpMenu.addAction(action_docs)
@@ -1208,21 +1313,89 @@ class MainWindow(QMainWindow):
         action_check_pyinstaller = QAction(self.lang_manager.tr("check_pyinstaller_updates", "التحقق من تحديثات PyInstaller", "Check PyInstaller Updates"), self)
         action_check_pyinstaller.triggered.connect(self.check_pyinstaller_updates)
         PyInstallerMenu.addAction(action_check_pyinstaller)
-        
-        
+    
+        FontQT = menubar.addMenu(
+        self.lang_manager.tr(
+            "font_menu",
+            "قائمة الخط",
+            "Font Menu",
+            "Menu Police",
+            "Меню шрифта",
+            "字体菜单",
+            "Menú de fuente",
+            "Menu fonte",
+            "Menú de fontes",
+            "Türk Yazı Tipi Menüsü",
+            "Schriftartmenü",
+            "Menu Carattere",
+            "フォントメニュー",
+            "글꼴 메뉴",
+            "منوی فونت",
+            "فونٹ مینو",
+            "پێكهاتەی فۆنت",
+            "फॉन्ट मेनू",
+            "תפריט גופנים",
+            "ภาษาไทย"
+            )
+        )
+
+        action_change_font = QAction(
+        self.lang_manager.tr(
+            "change_font",
+            "تغيير الخط",
+            "Change Font",
+            "Changer la police",
+            "Изменить шрифт",
+            "更改字体",
+            "Cambiar fuente",
+            "Alterar fonte",
+            "Alterar fonte",
+            "Yazı Tipini Değiştir",
+            "Schriftart ändern",
+            "Cambia carattere",
+            "フォントを変更",
+            "글꼴 변경",
+            "تغییر فونت",
+            "فونٹ تبدیل کریں",
+            "گۆڕینی فۆنت",
+            "फ़ॉन्ट बदलें",
+            "שנה גופן",
+            "เปลี่ยนแบบอักษร"
+            ),
+            self
+        )
+
+        action_change_font.triggered.connect(self.change_font)
+        FontQT.addAction(action_change_font)
+
+             
         languageMenu = menubar.addMenu(self.lang_manager.tr("language_menu", "اللغة", "Language", "Langue", "Язык", "语言"))    
         languages = self.lang_manager.AvailableLanguges()
-        lang_names = {
+        LanguagesName = {
             "ar": "العربية",
             "en": "English", 
             "fr": "Français",
             "ru": "Русский",
-            "zh": "中文"
+            "zh": "中文",
+            "es": "Español",
+            "mx": "México",
+            "pr": "Brasil",
+            "pt": "Português",
+            "tr": "Türkçe",
+            "de": "Deutsch",
+            "it": "Italiano",
+            "ja": "日本語",
+            "ko": "한국어",
+            "fa": "فارسی",
+            "ur": "اُردُو",
+            "ku": "کوردی",
+            "hi": "हिन्दी",
+            "he": "עברית"
         }
         
-        for lang_code in languages:
-            action = QAction(lang_names.get(lang_code, lang_code), self)
-            action.triggered.connect(lambda checked, code=lang_code: self.ChangeLanguage(code))
+        for LamguageCoding in languages:
+            action = QAction(LanguagesName.get(LamguageCoding, LamguageCoding), self)
+            action.triggered.connect(lambda checked, code=LamguageCoding: self.ChangeLanguage(code))
             languageMenu.addAction(action)
 
     def CreateMenusGUI(self):
@@ -1653,10 +1826,13 @@ class MainWindow(QMainWindow):
         manifest_layout = QHBoxLayout()
         self.manifestLine = QLineEdit()
         self.manifestBtn = QPushButton(self.lang_manager.tr("choose_manifest", "اختيار ملف manifest…"))
+        self.open_manifestBtn = QPushButton(self.lang_manager.tr("open_manifest", "فتح الملف التجسيدي"))
         self.manifestBtn.clicked.connect(self.pick_manifest)
+        self.open_manifestBtn.clicked.connect(self.open_manifest)
         manifest_layout.addWidget(QLabel(self.lang_manager.tr("manifest", "الملف التجسيدي")))
         manifest_layout.addWidget(self.manifestLine)
         manifest_layout.addWidget(self.manifestBtn)
+        manifest_layout.addWidget(self.open_manifestBtn)
         output_layout.addLayout(manifest_layout)
         output_group.setLayout(output_layout)
         layout.addWidget(output_group)
@@ -1747,10 +1923,9 @@ class MainWindow(QMainWindow):
         report_layout.addWidget(self.reportText)
         logs_tab.addTab(report_tab, self.lang_manager.tr("build_report", "التقارير"))
         
-        class SysInfoWidget(QWidget):
+        class SysInfoWidget(QWidget): # if do change in futur Class or Function Transformation sipPyTypeDict()  →  sipPyTypeDictRef()
             def __init__(self, lang_manager, parent=None, max_points=120, interval_ms=500):
                 super().__init__(parent)
-
                 self.lang_manager = lang_manager
                 self.max_points = max_points
                 self.interval_ms = interval_ms
@@ -1768,9 +1943,19 @@ class MainWindow(QMainWindow):
                 ctrl_layout.addStretch(1)
                 layout.addLayout(ctrl_layout)
 
-                self.fig = Figure(figsize=(6, 3))
+                self.fig = Figure(figsize=(6, 3), dpi=100)
+                
+                if hasattr(self.fig, 'tight_layout'):
+                    self.fig.tight_layout(pad=2.0)
+                    
+                self.fig.tight_layout(pad=2.0)
+                self.ax = None
+                self.fig.patch.set_facecolor((0.95, 0.95, 0.95))
+                self.fig.patch.set_alpha(0.9)
+                self.fig.subplots_adjust(left=0.1, right=0.95, top=0.9, bottom=0.15)
+                
                 self.canvas = FigureCanvas(self.fig)
-                layout.addWidget(self.canvas)
+                layout.addWidget(self.canvas, stretch=1)
 
                 self._text_mode = False
                 self.textView = QPlainTextEdit()
@@ -1927,8 +2112,9 @@ class MainWindow(QMainWindow):
                         ymin = max(0, ymin - 1)
                         ymax = min(100, ymax + 1)
                     self.ax.set_ylim(ymin, ymax)
+                    
+                    # Fix Bugs -> zip or low in interface 
 
-                self.fig.tight_layout()
                 self.canvas.draw_idle()
 
 
@@ -2087,6 +2273,79 @@ class MainWindow(QMainWindow):
     def about_program(self):
         about_text = self.lang_manager.tr("about_program_text")
         QMessageBox.about(self, self.lang_manager.tr("about_program", "حول البرنامج"), about_text)
+        
+    def have_problem(self):
+        problem_text = self.lang_manager.tr("have_problem_text")
+        contact_message = self.lang_manager.tr("MSG_contact_email")
+        
+        reply = QMessageBox.information(
+            self,
+            self.lang_manager.tr("have_problem", "هل تواجه مشكلة؟"),
+            f"{problem_text}\n\n{contact_message}",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.Yes
+        )
+        
+        if reply == QMessageBox.Yes:
+            self.open_contact_options()
+
+    def open_contact_options(self):
+        dialog = QDialog(self)
+        dialog.setWindowTitle(self.lang_manager.tr("contact_options", "خيارات التواصل"))
+        layout = QVBoxLayout()
+
+        telegram_btn = QPushButton(self.lang_manager.tr("contact_via_telegram", "التواصل عبر تليجرام"))
+        telegram_btn.clicked.connect(lambda: self.send_telegram(dialog))
+
+        instagram_btn = QPushButton(self.lang_manager.tr("contact_via_instagram", "زيارة إنستجرام"))
+        instagram_btn.clicked.connect(lambda: self.open_instagram(dialog))
+
+        cancel_btn = QPushButton(self.lang_manager.tr("cancel", "إلغاء"))
+        cancel_btn.clicked.connect(dialog.reject)
+
+        layout.addWidget(telegram_btn)
+        layout.addWidget(instagram_btn)
+        layout.addWidget(cancel_btn)
+
+        dialog.setLayout(layout)
+        dialog.exec_()
+
+    def send_telegram(self, parent_dialog=None):
+        try:
+            telegram_url = "https://t.me/wsl_iq"
+            webbrowser.open(telegram_url)
+            if parent_dialog:
+                parent_dialog.accept()
+            QMessageBox.information(
+                self,
+                self.lang_manager.tr("telegram_opened", "تم فتح تليجرام"),
+                self.lang_manager.tr("telegram_instructions", "سيتم فتح رابط التليجرام. يمكنك مراسلتنا هناك.")
+            )
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                self.lang_manager.tr("error", "خطأ"),
+                self.lang_manager.tr("open_telegram_error", "تعذر فتح تليجرام: {error}").format(error=str(e))
+            )
+
+    def open_instagram(self, parent_dialog=None):
+        try:
+            insta_url = "https://www.instagram.com/wsl.iq/"
+            webbrowser.open(insta_url)
+            if parent_dialog:
+                parent_dialog.accept()
+            QMessageBox.information(
+                self,
+                self.lang_manager.tr("instagram_opened", "تم فتح إنستجرام"),
+                self.lang_manager.tr("instagram_instructions", "سيتم فتح رابط إنستجرام. يمكنك التواصل عبر الرسائل هناك.")
+            )
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                self.lang_manager.tr("error", "خطأ"),
+                self.lang_manager.tr("open_instagram_error", "تعذر فتح إنستجرام: {error}").format(error=str(e))
+            )
+        
 
     def Privacy_Policy(self):
         Privacy_Policy_txt = self.lang_manager.tr("privacy_policy_text")
@@ -2149,7 +2408,7 @@ class MainWindow(QMainWindow):
             return
 
         if rv > lv:
-            msg = f"يتوفر تحديث جديد لـ PyInstaller.\nالإصدار المثبت: {local_ver}\nالإصدار المتاح: {remote_ver}\n\nهل ترغب بتحديث PyInstaller الآن؟"
+            msg = self.lang_manager.tr("pyinstaller_update_available", "يتوفر تحديث جديد لـ PyInstaller.\nالإصدار المثبت: {version}\nالإصدار المتاح: {remote}\n\nهل ترغب بتحديث PyInstaller الآن؟").format(version=local_ver, remote=remote_ver)
             if QMessageBox.question(self, self.lang_manager.tr("update_available", "تحديث متاح"), msg, 
                                    QMessageBox.Yes | QMessageBox.No) == QMessageBox.Yes:
                 try:
@@ -2162,8 +2421,46 @@ class MainWindow(QMainWindow):
         else:
             QMessageBox.information(self, self.lang_manager.tr("check_updates", "تحقق من التحديثات"), 
                                   self.lang_manager.tr("pyinstaller_up_to_date", f"PyInstaller محدث: {local_ver}"))
-        
+            
+            
+    def change_font(self):
+        font, ok = QFontDialog.getFont(
+            self.current_font,
+            None,
+            self.lang_manager.tr(
+            "select_font",
+            "اختر الخط", # ar
+            "Select Font", # en
+            "选择字体", # zh
+            "Sélectionner la police", # fr
+            "Schriftart auswählen", # de
+            "フォントを選択", # ja
+            "Выбрать шрифт", # ru
+            "Seleccionar fuente", # es
+            "Selecione a fonte", # pt
+            "Seleziona il carattere", # it
+            "Escolha a fonte", # pr (Brazil)
+            "Seç Yazı Tipini", # tr
+            "Selectează Fontul", # ro (if needed)
+            "เลือกฟอนต์", # th
+            "フォントを選択してください", # ja (alt)
+            "한국어 글꼴 선택", # ko
+            "فونٹ منتخب کریں", # ur
+            "بخش فونٹ", # fa
+            "هەڵبژاردنی فۆنت", # ku
+            "फॉन्ट चुनें" # hi
+            )
+        )
 
+        if ok:
+            self.current_font = font
+            self.settings["font"]["family"] = font.family()
+            self.settings["font"]["size"] = font.pointSize()
+            self.settings["font"]["weight"] = font.weight()
+            QApplication.instance().setFont(font)
+            self.SaveSettings()
+
+        
     def set_theme(self, theme):
         self.settings["theme"] = theme
         self.apply_theme()
@@ -2331,6 +2628,22 @@ class MainWindow(QMainWindow):
         if path:
             self.manifestLine.setText(os.path.abspath(path))
 
+    def open_manifest(self):
+        path = self.manifestLine.text().strip()
+        if not path:
+            QMessageBox.information(self, self.lang_manager.tr("open_manifest", "فتح الملف التجسيدي"), self.lang_manager.tr("manifest_not_specified", "لم يتم تحديد ملف manifest."))
+            return
+        if not os.path.isfile(path):
+            QMessageBox.warning(self, self.lang_manager.tr("open_manifest", "فتح الملف التجسيدي"), self.lang_manager.tr("manifest_not_found", "ملف الـ manifest غير موجود."))
+            return
+        try:
+            if os.name == "nt":
+                os.startfile(path)
+            else:
+                subprocess.Popen(["xdg-open", path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        except Exception as e:
+            QMessageBox.warning(self, self.lang_manager.tr("open_manifest", "فتح الملف التجسيدي"), self.lang_manager.tr("failed_to_open_file", f"فشل فتح الملف: {e}"))
+
     def pick_output(self):
         path = QFileDialog.getExistingDirectory(self, self.lang_manager.tr("pick_output", "اختيار مجلد الإخراج"))
         if path:
@@ -2412,13 +2725,37 @@ class MainWindow(QMainWindow):
             cmds.append(cmd)
         return cmds
 
+    def open_manifest(self):
+        try:
+            base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
+            if getattr(sys, 'frozen', False):
+                target = os.path.join(base_path, "Manifest", "ManifestEdition.exe")
+                process = subprocess.Popen([target], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                if process.poll() is not None:
+                    import Nanifest.ManifestEdition as ManifestEdition
+                    ManifestEdition.main()
+            else:
+                target = os.path.join(base_path, "Manifest", "ManifestEdition.py")
+                process = subprocess.Popen([sys.executable, target], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                if process.poll() is not None:
+                    import ManifestEdition
+                    ManifestEdition.main()
+            process.wait()
+        except Exception as e:
+            QMessageBox.warning(
+                self,
+                self.lang_manager.tr("error", "خطأ"),
+                self.lang_manager.tr("failed_to_open_manifest_editor", f"فشل فتح محرر الملف التجسيدي: {e}")
+            )
+
     def start_build(self):
         self.SaveSettings()
 
         python_exec = self.interpCombo.currentText().strip() or None
         if python_exec:
             if not shutil.which(os.path.basename(python_exec)) and not os.path.isfile(python_exec):
-                if QMessageBox.question(self, self.lang_manager.tr("python_interpreter", "مفسّر Python"), f"{self.lang_manager.tr("interpreter_not_found", "المسار المحدد للمفسر غير موجود")}:\n{python_exec}\n\n{self.lang_manager.tr("continue_with_system_interpreter", "هل تريد المتابعة مع مفسر النظام؟")}", QMessageBox.Yes | QMessageBox.No) == QMessageBox.No:
+                msg = f"{self.lang_manager.tr('interpreter_not_found', 'المسار المحدد للمفسر غير موجود')}:\n{python_exec}\n\n{self.lang_manager.tr('continue_with_system_interpreter', 'هل تريد المتابعة مع مفسر النظام؟')}"
+                if QMessageBox.question(self, self.lang_manager.tr("python_interpreter", "مفسّر Python"), msg, QMessageBox.Yes | QMessageBox.No) == QMessageBox.No:
                     return
                 python_exec = None
 
@@ -2605,7 +2942,7 @@ class MainWindow(QMainWindow):
             try:
                 notification.notify(
                     icon=r"icon\PyCLI.ico" if os.path.isfile(r"icon\PyCLI.ico") else None,
-                    title="From Python to Executable",
+                    title="From Python to Executable - " + self.lang_manager.tr("build_successful", "تم البناء بنجاح"),
                     message=self.lang_manager.tr("build_success_message", "تم الأنتهاء من عملية البناء بنجاح."),
                     timeout=10
                 )
@@ -2627,8 +2964,9 @@ class MainWindow(QMainWindow):
         else:
             self._append_log("[WARN] Finished building with errors. Check the log.")
             QMessageBox.warning(self, self.lang_manager.tr("finished_with_issues", "انتهى مع مشاكل"), self.lang_manager.tr("check_log_for_error_details", "تحقق من السجل لمعرفة تفاصيل الخطأ."))
+    
     def save_log_to_file(self, prompt=True):
-        default = os.path.abspath("build Tools.txt")
+        default = os.path.abspath("build-Tools.txt")
         if prompt:
             path, _ = QFileDialog.getSaveFileName(self, self.lang_manager.tr("save_log", "حفظ السجل كملف"), default, "Text Files (*.txt)")
             if not path:
@@ -2680,6 +3018,7 @@ class MainWindow(QMainWindow):
                     QMessageBox.warning(self, self.lang_manager.tr("failed", "فشل"), self.lang_manager.tr("failed_to_delete_output_folder", "فشل حذف المجلد: ") + str(e))
         else:
             QMessageBox.information(self, self.lang_manager.tr("not_found", "غير موجود"), self.lang_manager.tr("output_folder_not_found", "مجلد الإخراج غير موجود."))
+    
     def full_clean(self):
         reply = QMessageBox.question(self, self.lang_manager.tr("full_clean", "تنظيف كامل"), self.lang_manager.tr("full_clean_confirmation", "سيتم حذف مجلدات build و dist وكل ملفات .spec في المجلد الحالي. هل تريد المتابعة؟"), QMessageBox.Yes | QMessageBox.No)
         if reply != QMessageBox.Yes:
@@ -2714,6 +3053,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, self.lang_manager.tr("generation_failed", "فشل التوليد"), self.lang_manager.tr("generation_failed_details", f"خلال توليد .spec حدث خطأ: {e}"))
                 return
         QMessageBox.information(self, self.lang_manager.tr("done", "تم"), self.lang_manager.tr("spec_files_generated", "تم توليد ملفات .spec بنجاح."))
+    
     def check_updates(self):
         raw_url = "https://raw.githubusercontent.com/wsl-iq/Python-Executable/main/version.txt"
         project_page = "https://github.com/wsl-iq/Python-Executable"
@@ -2810,7 +3150,7 @@ if __name__ == "__main__":
         except Exception:
             pass
         try:
-            import platform
+            
             text = (
                 f"Platform: {platform.platform()}\n"
                 f"Python: {platform.python_version()}\n"
@@ -2837,6 +3177,14 @@ if __name__ == "__main__":
                 pass
         except Exception:
             pass
+
+# The code only Developer .
+# Don't using on person normaly.
+# this code privede software
+# Optmization and fixing bugs
+# Test CPU and Memory usage
+# and more features that help to make the software better and faster.
+
         def FileFixingBugs():
             try:
                 text = (
@@ -2851,9 +3199,9 @@ if __name__ == "__main__":
                     f"Error: {e}\n"
                     f"Traceback: {traceback.format_exc()}\n"
                     f"keyboard Interrupt: {isinstance(e, KeyboardInterrupt)}\n"
-                    f"System Exit: {isinstance(e, SystemExit)}\n"
-                    
+                    f"System Exit: {isinstance(e, SystemExit)}\n"   
                 )
+                
                 fix_dir = os.path.join(os.getcwd(), "FixBug")
                 os.makedirs(fix_dir, exist_ok=True)
                 fp = os.path.join(fix_dir, "FixingBugs.txt")
@@ -2884,20 +3232,463 @@ if os.name == "nt":
             except Exception:
                 pass
 
+
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    dll_dir = os.path.join(current_dir, ".dll", "x64" if __Win64Bit__() else "x86")
-
-    os.makedirs(dll_dir, exist_ok=True)
-
-    __dll__(dll_dir)
+    Dir = os.path.join(current_dir, ".dll", "x64" if __Win64Bit__() else "x86")
+    os.makedirs(Dir, exist_ok=True)
+    __dll__(Dir)
 
     try:
-        src_file = os.path.abspath(__file__)
-        dst_dll = os.path.join(dll_dir, "FromPythonApp.dll")
+        candidates = []
+        for d in (current_dir, os.path.join(current_dir, "plugins"), os.path.join(current_dir, "libs")):
+            if not os.path.isdir(d):
+                continue
+            for root, _, files in os.walk(d):
+                for f in files:
+                    if f.endswith(".py"):
+                        candidates.append(os.path.join(root, f))
 
-        shutil.copy2(src_file, dst_dll)
+        candidates.append(os.path.abspath(__file__))
 
-        with open(os.path.join(dll_dir, "Build.txt"), "a", encoding="utf-8") as log:
-            log.write(f"[✓] DLL: {dst_dll}\n")
+        tmpdir = tempfile.mkdtemp(prefix="embed_")
+        compiled_files = []
+        for src in set(candidates):
+            try:
+                rel = os.path.relpath(src, current_dir).replace(os.sep, "/")
+                target = os.path.join(tmpdir, rel + "c")
+                os.makedirs(os.path.dirname(target), exist_ok=True)
+                py_compile.compile(src, cfile=target, doraise=False)
+                if os.path.isfile(target):
+                    compiled_files.append((rel + "c", target))
+            except Exception:
+                pass
+
+        bio = io.BytesIO()
+        with zipfile.ZipFile(bio, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+            for arcname, path in compiled_files:
+                try:
+                    zf.write(path, arcname)
+                except Exception:
+                    pass
+            libs_root = os.path.join(current_dir, "libs")
+            if os.path.isdir(libs_root):
+                for root, _, files in os.walk(libs_root):
+                    for f in files:
+                        if f.lower().endswith((".pyd", ".dll")):
+                            full = os.path.join(root, f)
+                            arc = os.path.join("native", os.path.relpath(full, current_dir)).replace(os.sep, "/")
+                            try:
+                                zf.write(full, arc)
+                            except Exception:
+                                pass
+
+        zip_bytes = bio.getvalue()
+        key_source = (os.path.abspath(__file__) + (os.uname().nodename if hasattr(os, "uname") else os.getenv("COMPUTERNAME", ""))).encode("utf-8")
+        key = hashlib.sha256(key_source).digest()
+
+        def xor_bytes(data: bytes, key: bytes) -> bytes:
+            klen = len(key)
+            return bytes(b ^ key[i % klen] for i, b in enumerate(data))
+
+        encrypted = xor_bytes(zip_bytes, key)
+
+        targets = [
+            "librarys.dll",
+            "style.dll",
+            "Qt.dll",
+            "pip.pyd",
+            "kernel.dll",
+            "X64.pyc",
+            "X32.pyc",
+            "X68.dll"
+        ]
+
+        for name in targets:
+            dst = os.path.join(Dir, name)
+            try:
+                with open(dst, "wb") as fh:
+                    fh.write(b"EMBD")
+                    fh.write(len(key).to_bytes(2, "little"))
+                    fh.write(key[:16])
+                    fh.write(encrypted)
+            except Exception:
+                pass
+
+        try:
+            shutil.rmtree(tmpdir, ignore_errors=True)
+        except Exception:
+            pass
+
     except Exception as e:
-        print(f"[X] DLL: {e}")   
+        print(f"[X] DLL packing error: {e}")
+
+
+    def __WinErrorHook__(err_code, func_name):
+        try:
+            err_msg = ctypes.FormatError(err_code)
+            print(f"[WinError] {func_name} failed with error {err_code}: {err_msg}")
+        except Exception:
+            print(f"[WinError] {func_name} failed with error code: {err_code}")
+        return 0
+
+    if hasattr(ctypes, "windll") and hasattr(ctypes.windll.kernel32, "SetErrorMode"):
+        SEM_FAILCRITICALERRORS = 0x0001
+        SEM_NOGPFAULTERRORBOX = 0x0002
+        SEM_NOOPENFILEERRORBOX = 0x8000
+        try:
+            ctypes.windll.kernel32.SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX | SEM_NOOPENFILEERRORBOX)
+            if hasattr(ctypes.windll.kernel32, "SetUnhandledExceptionFilter"):
+                def exception_filter(exception_info):
+                    try:
+                        code = exception_info.contents.ExceptionRecord.contents.ExceptionCode
+                        addr = exception_info.contents.ExceptionRecord.contents.ExceptionAddress
+                        print(f"[UnhandledException] Code: {code}, Address: {addr}")
+                    except Exception:
+                        print("[UnhandledException] An unhandled exception occurred.")
+                    return 0
+
+                EXCEPTION_POINTERS = ctypes.c_void_p * 2
+                FilterFuncType = ctypes.WINFUNCTYPE(ctypes.c_long, ctypes.POINTER(EXCEPTION_POINTERS))
+                filter_func = FilterFuncType(exception_filter)
+                ctypes.windll.kernel32.SetUnhandledExceptionFilter(filter_func)
+        except Exception as e:
+            print(f"[WinError] Failed to set error mode or exception filter: {e}")
+
+    def __core__():
+        try:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            core_dir = os.path.join(current_dir, "core")
+            if not os.path.isdir(core_dir):
+                print("[Core] core folder not found:", core_dir)
+                return
+
+            cmake_bin = shutil.which("cmake")
+            build_dir = os.path.join(core_dir, "build")
+
+            if cmake_bin:
+                try:
+                    os.makedirs(build_dir, exist_ok=True)
+                    print("[Core] Configuring core with CMake...")
+                    subprocess.check_call([cmake_bin, "-S", core_dir, "-B", build_dir], cwd=current_dir)
+                    print("[Core] Building core...")
+                    subprocess.check_call([cmake_bin, "--build", build_dir, "--config", "Release"], cwd=current_dir)
+                    print("[Core] Build completed.")
+                except subprocess.CalledProcessError as e:
+                    print(f"[Core] CMake build failed: {e}. Will attempt to find existing binary.")
+                except Exception as e:
+                    print(f"[Core] CMake step error: {e}. Will attempt to find existing binary.")
+            else:
+                print("[Core] cmake not found in PATH. Skipping build step and attempting to find an existing binary.")
+
+            candidates = []
+            for root in (build_dir, os.path.join(core_dir, "bin"), core_dir):
+                if not os.path.isdir(root):
+                    continue
+                for fname in os.listdir(root):
+                    fpath = os.path.join(root, fname)
+                    if os.path.isfile(fpath):
+                        if os.name == "nt" and fname.lower().endswith(".exe"):
+                            candidates.append(fpath)
+                        elif os.name != "nt":
+                            try:
+                                mode = os.stat(fpath).st_mode
+                                if mode & (stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH):
+                                    candidates.append(fpath)
+                            except Exception:
+                                pass
+
+            exe_path = candidates[0] if candidates else None
+            if not exe_path:
+                print("[Core] No executable found for core. Expected files under:", build_dir, "or core/bin")
+                return
+
+            exe_path = os.path.abspath(exe_path)
+            print("[Core] Launching core executable:", exe_path)
+
+            def run_core_process():
+                try:
+                    with subprocess.Popen(
+                        [exe_path],
+                        cwd=os.path.dirname(exe_path),
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                        text=True,
+                        bufsize=1,
+                        universal_newlines=True
+                    ) as proc:
+                        for line in proc.stdout:
+                            line = line.rstrip("\n")
+                            print(f"[Core] {line}")
+                            try:
+                                with open(LOG_FILE, "a", encoding="utf-8") as lf:
+                                    lf.write(f"[CORE] {time.ctime()} {line}\n")
+                            except Exception:
+                                pass
+                        rc = proc.wait()
+                        print(f"[Core] Process exited with code {rc}")
+                        try:
+                            with open(LOG_FILE, "a", encoding="utf-8") as lf:
+                                lf.write(f"[CORE] exited {time.ctime()} code={rc}\n")
+                        except Exception:
+                            pass
+                except FileNotFoundError:
+                    print("[Core] Executable not found when trying to run:", exe_path)
+                except Exception as e:
+                    print(f"[Core] Error while running core: {e}")
+
+            t = threading.Thread(target=run_core_process, daemon=True)
+            t.start()
+
+        except Exception as e:
+            print(f"[Core] Failed to start core helper: {e}")
+    __core__()
+
+    def __check_dlls__():
+        try:
+            import ctypes.util
+            required = ["Qt5Core.dll", "Qt5Gui.dll", "Qt5Widgets.dll"]
+            missing = []
+            for dll in required:
+                path = ctypes.util.find_library(dll)
+                if not path or not os.path.isfile(path):
+                    missing.append(dll)
+            if missing:
+                print(f"[DLL Check] Missing required DLLs: {', '.join(missing)}. The application may not function correctly.")
+        except Exception as e:
+            print(f"[DLL Check] Error while checking DLLs: {e}")
+    __check_dlls__()
+    
+    def __check_python__():
+        try:
+            python_exec = sys.executable
+            if not python_exec or not os.path.isfile(python_exec):
+                print("[Python Check] Current Python executable not found:", python_exec)
+                python_exec = shutil.which("python") or shutil.which("python3")
+                if python_exec and os.path.isfile(python_exec):
+                    print("[Python Check] Found alternative Python executable:", python_exec)
+                else:
+                    print("[Python Check] No valid Python executable found in PATH.")
+        except Exception as e:
+            print(f"[Python Check] Error while checking Python executable: {e}")
+    __check_python__()
+
+    def __dll_pyd__pyc__():
+        try:
+            Dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".dll")
+            if not os.path.isdir(Dir):
+                print("[DLL/PYD/pyc Check] .dll directory not found:", Dir)
+                return
+            for root, _, files in os.walk(Dir):
+                for f in files:
+                    if f.lower().endswith((".pyd", ".dll", ".pyc")):
+                        path = os.path.join(root, f)
+                        if not os.path.isfile(path):
+                            print(f"[DLL/PYD/pyc Check] Expected file not found: {path}")
+        except Exception as e:
+            print(f"[DLL/PYD/pyc Check] Error while checking .dll files: {e}")
+    __dll_pyd__pyc__()
+
+    def kernel32():
+        try:
+            return ctypes.windll.kernel32
+        except Exception:
+            return None
+    kernel32 = kernel32()
+
+    def __check_kernel32__():
+        if not kernel32:
+            print("[Kernel32 Check] kernel32.dll not accessible via ctypes.windll. This may indicate a problem with the Windows installation or Python environment.")
+    __check_kernel32__()
+
+    def __check_winsound__():
+        try:
+            import winsound
+            winsound.MessageBeep()
+            mp4=os.path.join(os.path.dirname(os.path.abspath(__file__)), "notification.mp4")
+            if os.path.isfile(mp4):
+                winsound.PlaySound(mp4, winsound.SND_FILENAME | winsound.SND_ASYNC)
+        except ImportError:
+            print("[Winsound Check] winsound module not available. Sound notifications will be disabled.")
+    __check_winsound__()
+
+    def encrption():
+        try:
+            test_data = b"Test encryption data for verification."
+            key_source = (os.path.abspath(__file__) + (os.uname().nodename if hasattr(os, "uname") else os.getenv("COMPUTERNAME", ""))).encode("utf-8")
+            key = hashlib.sha256(key_source).digest()
+
+            def xor_bytes(data: bytes, key: bytes) -> bytes:
+                klen = len(key)
+                return bytes(b ^ key[i % klen] for i, b in enumerate(data))
+
+            encrypted = xor_bytes(test_data, key)
+            decrypted = xor_bytes(encrypted, key)
+
+            if decrypted != test_data:
+                print("[Encryption Check] Encryption/decryption test failed. The XOR cipher may not be functioning correctly.")
+        except Exception as e:
+            print(f"[Encryption Check] Error during encryption test: {e}")
+    encrption()
+
+    def __CPU__Memory__():
+        try:
+            import psutil
+            cpu = psutil.cpu_percent(interval=1)
+            mem = psutil.virtual_memory().percent
+            print(f"[CPU/Memory Check] CPU Usage: {cpu}%, Memory Usage: {mem}%")
+        except ImportError:
+            print("[CPU/Memory Check] psutil module not available. System usage information will be disabled.")
+        except Exception as e:
+            print(f"[CPU/Memory Check] Error while checking CPU/Memory usage: {e}")
+    __CPU__Memory__()
+
+    def __GPU__():
+        try:
+            import subprocess
+            if os.name == "nt":
+                cmd = ["wmic", "path", "win32_VideoController", "get", "CurrentHorizontalResolution,CurrentVerticalResolution,Name"]
+                result = subprocess.run(cmd, capture_output=True, text=True)
+                print("[GPU Check] GPU Information:\n", result.stdout)
+            else:
+                print("[GPU Check] GPU usage monitoring is not implemented for non-Windows platforms.")
+        except Exception as e:
+            print(f"[GPU Check] Error while checking GPU information: {e}")
+    __GPU__()
+
+    def __check_core_process__():
+        try:
+            import time
+            import psutil
+            core_process_name = "core.exe" if os.name == "nt" else "core"
+            found = False
+            for proc in psutil.process_iter(['name']):
+                if proc.info['name'] and proc.info['name'].lower() == core_process_name:
+                    print(f"[Core Process Check] Found core process: PID={proc.pid}, Name={proc.info['name']}")
+                    found = True
+                    break
+            if not found:
+                print("[Core Process Check] Core process not found. The helper executable may not be running.")
+        except ImportError:
+            print("[Core Process Check] psutil module not available. Cannot check for core process.")
+        except Exception as e:
+            print(f"[Core Process Check] Error while checking for core process: {e}")
+    __check_core_process__()
+
+    def __final_message__():
+        print("[Initialization] All checks completed. The application should be running with the embedded core helper and necessary DLLs.")
+    __final_message__()
+
+def __Optmization__():
+    try:
+        import psutil
+        process = psutil.Process(os.getpid())
+        process.nice(psutil.BELOW_NORMAL_PRIORITY_CLASS if os.name == "nt" else 10)
+        print("[Optimization] Process priority set to below normal.")
+    except ImportError:
+        print("[Optimization] psutil module not available. Cannot set process priority.")
+    except Exception as e:
+        print(f"[Optimization] Error while setting process priority: {e}")
+
+    try:
+        import gc
+        gc.set_threshold(700, 10, 10)
+        print("[Optimization] Garbage collection thresholds set to (700, 10, 10).")
+    except Exception as e:
+        print(f"[Optimization] Error while setting garbage collection thresholds: {e}")
+        os.environ["PYTHONOPTIMIZE"] = "2"; os.path.expandvars("$PYTHONOPTIMIZE")
+        print("[Optimization] PYTHONOPTIMIZE environment variable set to 2 for maximum optimization.")
+__Optmization__()
+
+def __TestCPU_Memory__():
+    try:
+        import psutil
+        cpu = psutil.cpu_percent(interval=1)
+        mem = psutil.virtual_memory().percent
+        print(f"[CPU/Memory Test] CPU Usage: {cpu}%, Memory Usage: {mem}%")
+    except ImportError:
+        print("[CPU/Memory Test] psutil module not available. System usage information will be disabled.")
+    except Exception as e:
+        print(f"[CPU/Memory Test] Error while checking CPU/Memory usage: {e}")
+__TestCPU_Memory__()
+
+def __WindowsErrorHandling__():
+    if os.name == "nt":
+        try:
+            import ctypes
+            kernel32 = ctypes.windll.kernel32
+            SEM_FAILCRITICALERRORS = 0x0001
+            SEM_NOGPFAULTERRORBOX = 0x0002
+            SEM_NOOPENFILEERRORBOX = 0x8000
+            kernel32.SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX | SEM_NOOPENFILEERRORBOX)
+            print("[Windows Error Handling] Set error mode to prevent system error dialogs.")
+        except Exception as e:
+            print(f"[Windows Error Handling] Failed to set error mode: {e}")
+__WindowsErrorHandling__()
+
+def __ExceptionHook__():
+    import sys
+    import traceback
+
+    def exception_hook(exc_type, exc_value, exc_traceback):
+        if issubclass(exc_type, KeyboardInterrupt):
+            sys.__excepthook__(exc_type, exc_value, exc_traceback)
+            return
+        print(f"[Uncaught Exception] {exc_type.__name__}: {exc_value}")
+        print("".join(traceback.format_exception(exc_type, exc_value, exc_traceback)))
+
+    sys.excepthook = exception_hook
+    print("[Exception Hook] Custom exception hook installed to catch uncaught exceptions.")
+__ExceptionHook__()
+
+def __win64bit__():
+    import struct
+    import ctypes
+    is_64bit = struct.calcsize("P") * 8 == 8 and ctypes.sizeof(ctypes.c_voidp) == 8
+
+    if not is_64bit:
+        print("[Win64 Check] Warning: This is not a 64-bit Windows system. Some features may not work correctly.")
+        sys.exit(1)
+
+    print(f"[Win64 Check] Is this a 64-bit Windows system? {'Yes' if is_64bit else 'No'}")
+    return is_64bit
+__win64bit__()
+
+def __win32bit__():
+    import struct
+    import ctypes
+    is_32bit = struct.calcsize("P") * 8 == 4 and ctypes.sizeof(ctypes.c_voidp) == 4
+
+    if not is_32bit:
+        print("[Win32 Check] Warning: This is not a 32-bit Windows system. Some features may not work correctly.")
+        sys.exit(1)
+
+    print(f"[Win32 Check] Is this a 32-bit Windows system? {'Yes' if is_32bit else 'No'}")
+    return is_32bit
+__win32bit__()
+
+def __win68bit__():
+    import struct
+    import ctypes
+    is_68bit = struct.calcsize("P") * 8 == 8 and ctypes.sizeof(ctypes.c_voidp) == 8
+
+    if not is_68bit:
+        print("[Win68 Check] Warning: This is not a 64-bit Windows system. Some features may not work correctly.")
+        sys.exit(1)
+
+    print(f"[Win68 Check] Is this a 64-bit Windows system? {'Yes' if is_68bit else 'No'}")
+    return is_68bit
+__win68bit__()
+
+def __ErrorSys__():
+    try:
+        import sys
+        print(f"[ErrorSys] Python version: {sys.version}")
+        print(f"[ErrorSys] Platform: {sys.platform}")
+        print(f"[ErrorSys] Executable: {sys.executable}")
+        print(f"[ErrorSys] Script: {os.path.abspath(__file__)}")
+    except Exception as e:
+        print(f"[ErrorSys] Error while gathering system information: {e}")
+__ErrorSys__()
+
+# From Python To Executable v3.1.0
+# icon
