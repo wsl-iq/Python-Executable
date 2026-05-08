@@ -1,6 +1,6 @@
 {
     "language_menu": "语言",
-    "app_title": "From Python To Executable v3.1.0",
+    "app_title": "From Python To Executable v3.2.0",
     "language": "语言",
     "file_menu": "文件",
     "new_project": "新项目",
@@ -34,10 +34,17 @@
     "license_agreement": "许可协议",
     "code_of_conduct": "行为准则",
     "contribution_policy": "贡献政策",
+    "open_manifest" : "打开 manifest 文件",
+    "manifest_editor": "manifest 编辑器",
+    "failed_to_open_manifest_editor": "打开 manifest 编辑器失败: {}",
 
     "open_output_folder": "打开输出文件夹",
     "open_build_folder": "打开构建文件夹",
 
+    "select_font": "选择字体",
+    "choose_font": "选择字体",
+    "font_menu": "字体菜单",
+    "change_font": "更改字体",
 
     "build_finished_without_errors": "构建已完成，无错误",
     "build_finished_with_errors": "构建已完成，但有错误",

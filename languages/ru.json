@@ -1,6 +1,6 @@
 {
     "language_menu": "Язык",
-    "app_title": "From Python To Executable v3.1.0",
+    "app_title": "From Python To Executable v3.2.0",
     "language": "Язык",
     "file_menu": "Файл",
     "new_project": "Новый проект",
@@ -37,11 +37,18 @@
     "pick_output": "Выбрать папку вывода",
     "toggle_files_list": "Переключить список файлов",
     "website": "Веб-сайт",
+    "open_manifest" : "Открыть файл manifest",
+    "manifest_editor": "Редактор manifest",
     
     "open_output_folder": "Открыть папку вывода",
     "open_build_folder": "Открыть папку сборки",
+    "failed_to_open_manifest_editor": "Не удалось открыть редактор manifest: {}",
+     
 
-
+    "select_font": "Выбрать шрифт",
+    "choose_font": "Выбрать шрифт",
+    "font_menu": "Меню шрифтов",
+    "change_font": "Изменить шрифт",
 
     "build_finished_without_errors": "Сборка завершена без ошибок",
     "build_finished_with_errors": "Сборка завершена с ошибками",

@@ -1,5 +1,5 @@
 {
-    "app_title": "From Python To Executable v3.1.0",
+    "app_title": "From Python To Executable v3.2.0",
     "language_menu": "اللغة",
     "language": "اللغة",
     "file_menu": "الملف",
@@ -34,7 +34,6 @@
     "license_agreement": "أتفاقية الترخيص",
     "code_of_conduct": "قواعد السلوك",
     "contribution_policy": "سياسة المساهمة",
-
     "mode": "الوضع",
     "single_file": "ملف واحد",
     "batch_files": "عدّة ملفات",
@@ -48,9 +47,7 @@
     "one_file": "بناء ملف واحد -F (موصى به)",
     "show_console": "إظهار الكونسول (Console)",
     "clean_before": "تنظيف قبل البناء --clean",
-    
     "drag_drop_hint": "يمكنك السحب و الافلات للملفات و المجلدات بصورة سريعة\nPython(*.py)\nicon(*.ico)\nMainfest(*.mainfest)\nCertificate(*.pfx *.p12)\n(*.png *.pjp *.jpg *.pjpeg *.jpeg *.jfif *.webp)",
-    
     "build_system": "نظام البناء",
     "platform": "المنصة",
     "template": "القالب",
@@ -65,7 +62,6 @@
     "company": "الشركة",
     "copyright": "حقوق النشر",
     "description": "الوصف",
-    
     "security_options": "خيارات الأمان",
     "obfuscation": "تشويش الكود (Obfuscation)",
     "anti_debug": "الحماية من التصحيح (Anti-Debug)",
@@ -75,25 +71,41 @@
     "choose_certificate": "اختيار...",
     "cert_password": "كلمة مرور الشهادة",
     "timestamp_server": "خادم الطابع الزمني",
-    
     "additional_files": "ملفات موارد إضافية (--add-data)",
     "add_file": "إضافة ملف…",
     "remove_file": "حذف المحدد",
     "additional_folders": "مجلدات موارد إضافية (--add-data)",
-    "add_folder": "إضافة مجلد…",
+    "add_folder": "إضافة مجلد",
     "remove_folder": "حذف المحدد",
     "resource_management": "إدارة الموارد",
     "resource_compression": "ضغط الموارد",
     "encrypt_resources": "تشفير الموارد",
+    "open_manifest" : " manifest فتح ملف",
+    "manifest_editor": "محرر manifest",
+    "failed_to_open_manifest_editor": "فشل فتح محرر الملف التجسيدي: {}",
+
+    "email_open_error": "خطأ في فتح عميل البريد الإلكتروني الافتراضي.",
+    "contact_via_telegram": "التواصل عبر تيليجرام",
+    "contact_via_instagram": "التواصل عبر إنستغرام",
+    "telegram_opened": "تم فتح تيليجرام في المتصفح.",
+    "telegram_instructions": "سيتم فتح رابط التليجرام يمكنك مراسلتنا هناك.",
+    "open_telegram_error": "تعذر فتح التليجرام",
+    "instagram_opened": "تم فتح الأنستغرام",
+    "instagram_instructions": "سيتم فتح رابط الأنستغرام يمكنك مراسلتنا هناك.",
+    "error": "خطأ",
+    "open_instagram_error": "تعذر فتح الأنستغرام",
+    "contact_options": "خيارات التواصل",
+    "contact_via_email": "التواصل عبر البريد الإلكتروني",
+    "contact_via_form": "ملء نموذج التواصل على الموقع",
+    "problem_report_subject": "تقرير مشكلة - تطبيق [اسم_التطبيق]",
+    "problem_report_body": "الرجاء وصف المشكلة التي تواجهها:\n\n1. ما الخطوات التي قمت بها قبل ظهور المشكلة؟\n2. ما هي الرسائل الخطأ التي ظهرت؟\n3. متى تحدث المشكلة؟\n\nمعلومات النظام:\n- نظام التشغيل: \n- إصدار التطبيق: \n\nشكراً لك على مساعدتنا في تحسين التطبيق.",
 
     "failed_to_run_file": "فشل تشغيل الملف: {}",
     "plugins_info": "نظام الإضافات مفعل. ضع ملفات الإضافات في مجلد 'plugins'",
     "templates_info": "يمكنك اختيار قالب من القائمة المنسدلة في علامة التبويب المتقدم",
-
     "generation_failed_details": "حدث خطأ أثناء التوليد: {}",
     "open_output_folder_now": "هل ترغب في فتح مجلد الإخراج الآن؟",
     "output_not_exist": "مجلد الإخراج غير موجود.",
-     
     "pyinstaller_menu":"PyInstaller قائمة",
     "check_pyinstaller_updates":"PyInstaller التحقق من تحديثات",
     "update_pyinstaller":"PyInstaller تحديث",
@@ -104,9 +116,14 @@
     "pyinstaller_updated":"تم تحديث PyInstaller إلى الإصدار {}",
     "update_failed":"فشل تحديث PyInstaller: {}",
     "pyinstaller_up_to_date":"أنت تستخدم أحدث إصدار من PyInstaller: {}",
-
-
-    
+    "select_font": "اختر الخط",
+    "choose_font": "اختيار الخط",
+    "font_menu": "قائمة الخطوط",
+    "change_font": "تغيير الخط",
+    "have_problem_text": "لدي مشكلة",
+    "have_problem": "هل تواجه مشكلة؟",
+    "contact_us": "هل تريد التواصل معنا؟",
+    "MSG_contact_email": "في حال واجهت مشكلة؟ لا تتردد بالتواصل معي عبر البريد الألنكتروني",
     "options_os_system": "خيارات نظام التشغيل",
     "disable_windowed_traceback": "تعطيل تتبع الأخطاء في النوافذ (--windowed-traceback)",
     "disable_windowed_traceback_checkbox": "تعطيل تتبع الأخطاء في النوافذ",
@@ -126,10 +143,8 @@
     "bootloader_signals_option": "تمكين إشارات محمل الإقلاع (--bootloader-signals)",
     "bootloader_signals_checkbox": "تمكين إشارات محمل الإقلاع",
     "bootloader_signals_desc": "يسمح لمحمل الإقلاع بالتعامل مع إشارات النظام (مثل الإنهاء) لتمكين إغلاق أو تنظيف نظيف عند استقبال إشارات خارجية.",
-    
     "finished_with_issues": "انتهى البناء مع مشاكل",
     "check_log_for_error_details": "تحقق من السجل لمزيد من التفاصيل.",
-
     "build_finished_without_errors": "أنتهى البناء بدون أخطاء",
     "build_finished_with_errors": "أنتهى البناء مع أخطاء",
     "up_to_date": "أنت تستخدم أحدث إصدار",
@@ -156,9 +171,6 @@
     "no_inputs_warning": "حدّد سكربت رئيسي أو أضف سكربتات في وضع Batch.",
     "specify_main_script_or_add_scripts_in_batch_mode": "حدّد سكربت رئيسي أو أضف سكربتات في وضع Batch.",
     "pyinstaller_not_found":"تعذر العثور على PyInstaller. ثبّت الحزمة بالأمر:\\n\\n    pip install pyinstaller\\n\\nثم أعد المحاولة.",
-
-
-    
     "output_group": "الإخراج",
     "output_folder": "مجلد الإخراج",
     "choose_output": "مكان الإخراج…",
@@ -168,13 +180,11 @@
     "choose_manifest": "اختيار ملف manifest…",
     "pick_output": "مكان الإخراج…",
     "toggle_files_list": "تكبير / تصغير قائمة الملفات",
-    
     "imports_settings": "الاستيرادات والإعدادات المتقدمة",
     "hidden_imports": "الاستيرادات المخفية (مفصولة بفاصلة)",
     "exclude_modules": "الموديولات المستبعدة (مفصولة بفاصلة)",
     "request_admin": "طلب صلاحيات المدير Administrator (--uac-admin)",
     "encryption_key": "مفتاح التشفير",
-    
     "build_control": "التحكم في البناء",
     "start_build_button": "بدء البناء",
     "cancel": "إلغاء",
@@ -192,21 +202,17 @@
     "toggle_view": "تبديل العرض",
     "graph_view": "عرض بياني",
     "text_view": "عرض نصي",
-    
     "action_buttons": "أزرار الإجراءات",
     "save_log": "حفظ السجل",
     "open_output": "فتح مجلد الإخراج",
-    "open_build": "فتح مجلد build",
+    "open_build": "فتح مجلد البناء",
     "test_output": "اختبار الناتج",
-
     "build_systems": ["PyInstaller (الكل)", "cx_Freeze (تقليدي)", "Nuitka (C/C++)", "PyOxidizer (Rust)", "Briefcase (محلي)"],
     "sysinfo_tab": "معلومات النظام",
-    
     "platforms": ["Windows 32-bit (win32)", "Windows 64-bit (win64)", "Linux", "macOS"],
     "templates": ["تطبيق واجهة رسومية (GUI)", "تطبيق وحدة التحكم (CLI)", "تطبيق خدمة (Service)", "تطبيق ويب (Web)", "مخصص (Custom)"],
     "compression_levels": ["بدون ضغط", "ضغط عادي", "ضغط عالي"],
     "timestamp_servers": ["http://timestamp.digicert.com", "http://timestamp.comodoca.com", "http://timestamp.globalsign.com"],
-    
     "tab_basic": "أساسي",
     "tab_advanced": "متقدم",
     "tab_security": "الأمان",
@@ -215,10 +221,8 @@
     "tab_log": "سجل البناء",
     "tab_reports": "التقارير",
     "tab_system": "معلومات النظام",
-
-    "open_output_folder": "فتح مجلد الاخراج",
+    "open_output_folder": "فتح مجلد الإخراج",
     "open_build_folder": "فتح مجلد البناء",
-    
     "messages": {
         "reset_confirm": "هل تريد إعادة الإعدادات إلى الوضع الافتراضي؟",
         "reset_complete": "تمت إعادة التعيين للإعدادات الافتراضية.",
@@ -302,4 +306,3 @@
         "text_update_error": "خطأ في تحديث العرض النصي: {}"
     }
 }
-

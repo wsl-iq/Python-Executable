@@ -1,5 +1,5 @@
 {
-    "app_title": "From Python To Executable v3.1.0",
+    "app_title": "From Python To Executable v3.2.0",
     "language_menu": "Langue",
     "language": "Langue",
     "file_menu": "Fichier",
@@ -70,7 +70,15 @@
     "pyinstaller_updated":"PyInstaller mis à jour vers la version {}",
     "update_failed":"Échec de la mise à jour de PyInstaller : {}",
     "pyinstaller_up_to_date":"Vous utilisez la dernière version de PyInstaller : {}",
+    "open_manifest" : "Ouvrir le fichier manifest",
+    "manifest_editor": "Éditeur de manifest",
+    "failed_to_open_manifest_editor": "Échec de l'ouverture de l'éditeur de manifest : {}",
+     
 
+    "select_font": "Sélectionner la police",
+    "choose_font": "Choisir la police",
+    "font_menu": "Menu des polices",
+    "change_font": "Changer la police",
 
     "options_os_system": "Options du système d'exploitation",
     "disable_windowed_traceback": "Désactiver (--windowed-traceback)",

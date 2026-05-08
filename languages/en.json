@@ -1,6 +1,6 @@
 {
     "language_menu": "Language",
-    "app_title": "From Python To Executable v3.1.0",
+    "app_title": "From Python To Executable v3.2.0",
     "language": "Language",
     "file_menu": "File",
     "new_project": "New Project",
@@ -38,6 +38,13 @@
     "toggle_files_list": "Toggle Files List",
     "website": "Website",
 
+    "select_font": "Select Font",
+    "choose_font": "Choose Font",
+    "font_menu": "Font Menu",
+    "change_font": "Change Font",
+    "open_manifest" : "Open Manifest File",
+    "manifest_editor": "Manifest Editor",
+    "failed_to_open_manifest_editor": "Failed to open manifest editor: {}",
     
 
     "build_finished_without_errors": "Build finished without errors",
