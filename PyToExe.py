@@ -2901,7 +2901,3 @@ if os.name == "nt":
             log.write(f"[✓] DLL: {dst_dll}\n")
     except Exception as e:
         print(f"[X] DLL: {e}")   
-        
-        
-        
-# check_log_for_error_detail
