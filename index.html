@@ -6,492 +6,7 @@
   <title>From Python To Executable · محول بايثون إلى تنفيذي احترافي</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Tajawal', sans-serif;
-    }
-    :root {
-      --primary: #0072ff;
-      --secondary: #00c6ff;
-      --accent: #6e45e2;
-      --dark: #0a0f25;
-      --darker: #080c20;
-      --light: #f8f9fa;
-      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-      --gradient-dark: linear-gradient(135deg, var(--dark), var(--darker));
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --border-glow: rgba(0, 198, 255, 0.2);
-    }
-    body {
-      background: var(--gradient-dark);
-      color: var(--light);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    .background-animation {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-    .particles {
-      position: absolute;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at 20% 50%, rgba(0,114,255,0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 20%, rgba(110,69,226,0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 40% 80%, rgba(0,198,255,0.1) 0%, transparent 50%);
-      animation: float 30s infinite linear;
-    }
-    @keyframes float {
-      0% { transform: translate(0,0) rotate(0deg); }
-      50% { transform: translate(-15px, -15px) rotate(180deg); }
-      100% { transform: translate(0,0) rotate(360deg); }
-    }
-
-    .navbar {
-      position: fixed;
-      top: 0; width: 100%;
-      background: rgba(10,15,37,0.85);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      transition: 0.3s;
-    }
-    .navbar.scrolled {
-      background: rgba(10,15,37,0.98);
-      box-shadow: 0 5px 25px rgba(0,0,0,0.4);
-    }
-    .nav-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.8rem 2rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.5rem;
-      font-weight: 900;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav-logo i {
-      font-size: 2rem;
-      -webkit-text-fill-color: initial;
-      color: var(--secondary);
-    }
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-    .nav-links a {
-      color: #ddd;
-      text-decoration: none;
-      font-weight: 600;
-      position: relative;
-      transition: 0.3s;
-    }
-    .nav-links a:hover {
-      color: var(--secondary);
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      width: 0; height: 2px;
-      bottom: -5px; right: 0;
-      background: var(--gradient);
-      transition: width 0.3s;
-    }
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-    .nav-toggle span {
-      width: 25px; height: 3px;
-      background: white;
-      margin: 3px 0;
-      transition: 0.3s;
-    }
-
-    .section {
-      padding: 100px 5%;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .section-title {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      text-align: center;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      position: relative;
-    }
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 80px; height: 3px;
-      background: var(--gradient);
-      margin: 0.5rem auto 0;
-      border-radius: 2px;
-    }
-    .section-desc {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto 3rem;
-      font-size: 1.15rem;
-      opacity: 0.9;
-    }
-/*الأدوات المتقدمة*/
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 24px;
-      padding: 2rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      border-color: var(--border-glow);
-      box-shadow: 0 25px 35px -8px rgba(0,198,255,0.2);
-    }
-
-    .btn-3d {
-      padding: 0.8rem 2rem;
-      border-radius: 40px;
-      text-decoration: none;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      transition: 0.3s;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-      transform-style: preserve-3d;
-    }
-    .btn-3d.primary {
-      background: var(--gradient);
-      color: white;
-    }
-    .btn-3d.secondary {
-      background: transparent;
-      border: 2px solid var(--secondary);
-      color: var(--secondary);
-    }
-    .btn-3d:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 14px 24px rgba(0,198,255,0.3);
-    }
-    .btn-3d.large {
-      padding: 1rem 2.8rem;
-      font-size: 1.2rem;
-    }
-
-    .hero {
-      min-height: 90vh;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 120px 5% 80px;
-      flex-wrap: wrap;
-      gap: 2rem;
-    }
-    .hero-content {
-      flex: 1 1 400px;
-    }
-    .hero .title {
-      font-size: 3.2rem;
-      line-height: 1.2;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .subtitle {
-      font-size: 1.3rem;
-      margin: 1.5rem 0;
-      opacity: 0.9;
-    }
-    .hero-icon {
-      flex: 1 1 400px;
-      text-align: center;
-      font-size: 15rem;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: floatIcon 6s ease-in-out infinite;
-    }
-    @keyframes floatIcon {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    .feature-icon {
-      font-size: 2.5rem;
-      color: var(--secondary);
-      margin-bottom: 1rem;
-    }
-
-    .language-section {
-      background: rgba(0,0,0,0.2);
-      border-radius: 40px;
-      padding: 2rem;
-      margin-top: 1rem;
-    }
-    .language-table {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.8rem 1.2rem;
-      align-items: center;
-    }
-    .lang-item {
-      background: rgba(0,198,255,0.08);
-      padding: 0.7rem 0.5rem;
-      border-radius: 40px;
-      text-align: center;
-      font-weight: 500;
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .lang-item i {
-      color: #00ff9d;
-      font-size: 0.9rem;
-    }
-    .lang-item:hover {
-      background: rgba(0,198,255,0.2);
-      transform: scale(1.02);
-      border-color: var(--secondary);
-    }
-
-    /* أنماط قسم الميزات الجديدة */
-    .features-container {
-      display: flex;
-      flex-direction: column;
-      gap: 3rem;
-    }
-    .feature-category {
-      background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 24px;
-      padding: 2rem;
-      transition: all 0.3s ease;
-    }
-    .feature-category:hover {
-      border-color: var(--border-glow);
-      box-shadow: 0 10px 30px -10px rgba(0,198,255,0.15);
-    }
-    .category-title {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      color: var(--secondary);
-      border-bottom: 2px solid rgba(0, 200, 255, 0.2);
-      padding-bottom: 0.8rem;
-    }
-    .category-title i {
-      font-size: 1.8rem;
-    }
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.2rem;
-    }
-    .option-item {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 1.2rem;
-      transition: all 0.2s;
-      cursor: default;
-      margin: 0.2rem;
-    }
-    .option-item:hover {
-      background: rgba(0, 200, 255, 0.1);
-      border-color: var(--secondary);
-      transform: translateY(-3px);
-      margin: 0.1rem;
-    }
-    .option-item i {
-      color: var(--secondary);
-      font-size: 1.2rem;
-      margin-left: 0.5rem;
-    }
-    .option-name {
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-      display: flex;
-      align-items: center;
-    }
-    .option-desc {
-      font-size: 0.85rem;
-      opacity: 0.7;
-      margin-right: 1.8rem;
-    }
-    .tag {
-      display: inline-block;
-      background: var(--accent);
-      color: white;
-      padding: 0.2rem 0.7rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      margin-right: 0.2rem;
-      margin: 0.2rem;
-      font-weight: 600;
-    }
-    .tag.recommended {
-      background: #00b894;
-    }
-    .tag.advanced {
-      background: linear-gradient(135deg, #6e45e2 0%, #a855f7 100%);
-      margin: 0.2rem;
-      border: 1px solid rgba(110, 69, 226, 0.5);
-      /*box-shadow: 0 4px 15px rgba(255, 255, 255, 0.137);*/
-      transition: all 0.3s ease;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    .tag.advanced:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
-    }
-
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    .review-card { text-align: center; }
-    .review-stars { color: gold; font-size: 1.3rem; margin-bottom: 1rem; }
-    .review-text { font-style: italic; margin-bottom: 1rem; opacity: 0.9; }
-    .reviewer { font-weight: 600; color: var(--secondary); }
-    .github-rating {
-      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
-      gap: 1rem; background: rgba(110,69,226,0.2); padding: 1.5rem; border-radius: 60px;
-    }
-    .rating-badge { background: var(--gradient); padding: 0.4rem 1.2rem; border-radius: 40px; font-weight: bold; }
-
-    .support-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-    }
-    .support-card { text-align: center; }
-    .support-card i { font-size: 2.5rem; color: var(--secondary); margin-bottom: 1rem; }
-
-    .comparison-table { overflow-x: auto; margin: 2rem 0; }
-    table {
-      width: 100%; border-collapse: collapse;
-      background: rgba(0,0,0,0.25); border-radius: 24px; backdrop-filter: blur(8px);
-    }
-    th, td { padding: 1rem 1.5rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    th { background: rgba(0,198,255,0.15); font-size: 1.2rem; }
-    td i.fa-check { color: #00ff9d; }
-    td i.fa-times { color: #ff5f7c; }
-
-    .footer {
-      background: var(--darker); padding: 3rem 5% 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    .footer-content {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-      gap: 2rem; max-width: 1400px; margin: 0 auto 2rem;
-    }
-    .footer-links a { color: #aaa; margin: 0 1rem; text-decoration: none; }
-    .footer-links a:hover { color: var(--secondary); }
-    .footer-social a { color: white; margin: 0 0.5rem; font-size: 1.5rem; }
-    .copyright { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); }
-    
-    /*Animations from left to right*/
-    /*
-    @keyframes slideInLeft {
-      from { opacity: 0; transform: translateX(-60px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes slideInRight {
-      from { opacity: 0; transform: translateX(60px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes zoomIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 10px rgba(0,198,255,0.5); }
-      50% { box-shadow: 0 0 30px rgba(0,198,255,0.8); }
-    }
-    */
-
-    .fade-up {
-      opacity: 0; transform: translateY(30px);
-      transition: 0.8s;
-    }
-    .fade-up.visible {
-      opacity: 1; transform: translateY(0);
-      animation: slideInLeft 0.6s ease-out;
-    }
-    .delay1 { transition-delay: 0.2s; }
-    .delay2 { transition-delay: 0.4s; }
-    
-    .slide-in-left { animation: slideInLeft 0.8s ease-out; }
-    .slide-in-right { animation: slideInRight 0.8s ease-out; }
-    .zoom-in { animation: zoomIn 0.6s ease-out; }
-    .pulse-anim { animation: pulse 2s infinite; }
-    .glow-anim { animation: glow 3s infinite; }
-
-    @media (max-width: 992px) { .language-table { grid-template-columns: repeat(4, 1fr); } }
-    @media (max-width: 768px) {
-      .language-table { grid-template-columns: repeat(2, 1fr); }
-      .nav-links {
-        position: fixed; top: 70px; right: -100%;
-        width: 70%; height: 100vh;
-        background: rgba(10,15,37,0.98);
-        flex-direction: column; padding: 2rem;
-        transition: 0.3s;
-      }
-      .nav-links.active { right: 0; }
-      .nav-toggle { display: flex; }
-      .hero .title { font-size: 2.5rem; }
-      .hero-icon { font-size: 10rem; }
-    }
-    @media (max-width: 480px) { .language-table { grid-template-columns: 1fr; } }
-  </style>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
   <div class="background-animation"><div class="particles"></div></div>
@@ -499,7 +14,7 @@
   <nav class="navbar" id="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-        <i class="fas fa-cube"></i> PyToExe
+        <i class="fas fa-cube"></i> From Python To Executable
       </div>
       <ul class="nav-links">
         <li><a href="#about"><i class="fas fa-info-circle"></i> حول</a></li>
@@ -539,8 +54,6 @@
     <p class="section-desc">تحكم كامل في عملية تحويل بايثون إلى ملف تنفيذي مع خيارات متقدمة للأمان، التحسين، والبناء.</p>
     
     <div class="features-container fade-up">
-      
-      <!-- الخيارات الأساسية -->
       <div class="feature-category">
         <h3 class="category-title"><i class="fas fa-star"></i> الخيارات الأساسية</h3>
         <div class="options-grid">
@@ -559,7 +72,6 @@
         </div>
       </div>
 
-      <!-- الأدوات المتقدمة -->
       <div class="feature-category">
         <h3 class="category-title"><i class="fas fa-tools"></i> الأدوات المتقدمة</h3>
         <div class="options-grid">
@@ -601,7 +113,6 @@
         </div>
       </div>
 
-      <!-- خيارات التحسين -->
       <div class="feature-category">
         <h3 class="category-title"><i class="fas fa-tachometer-alt"></i> خيارات التحسين</h3>
         <div class="options-grid">
@@ -620,7 +131,6 @@
         </div>
       </div>
 
-      <!-- خيارات الأمان -->
       <div class="feature-category">
         <h3 class="category-title"><i class="fas fa-shield-alt"></i> خيارات الأمان</h3>
         <div class="options-grid">
@@ -639,7 +149,6 @@
         </div>
       </div>
 
-      <!-- التوقيع الرقمي -->
       <div class="feature-category">
         <h3 class="category-title"><i class="fas fa-signature"></i> التوقيع الرقمي</h3>
         <div class="options-grid">
@@ -654,7 +163,6 @@
         </div>
       </div>
 
-      <!-- خيارات نظام التشغيل -->
       <div class="feature-category">
         <h3 class="category-title"><i class="fas fa-cog"></i> خيارات نظام التشغيل</h3>
         <div class="options-grid">
@@ -756,79 +264,10 @@
     <div class="footer-content">
       <div class="footer-links"><a href="#about"> حول </a><a href="#features"> ميزات </a><a href="#languages"> اللغات </a><a href="#reviews"> مراجعات </a><a href="#support"> دعم </a><a href="#download"> تحميل </a></div>
       <div class="footer-social"><a href="https://github.com/wsl-iq"><i class="fab fa-github"></i></a><a href="https://www.instagram.com/g6xs0r"><i class="fab fa-instagram"></i></a></div>
-      <style>
-        .footer-content {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .footer-links {
-          margin-bottom: 1rem;
-        }
-        .footer-social {
-          margin-top: 1rem;
-        }
-        .footer-social a {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          margin: 0 10px;
-          transition: all 0.3s ease;
-          transform: scale(1);
-        }
-        .footer-social a:hover {
-          transform: scale(1.2) rotate(360deg);
-        }
-        .footer-social a:nth-child(1):hover {
-          color: rgb(146, 146, 146); /*GitHub white*/
-        }
-        .footer-social a:nth-child(2):hover {
-          color: #ff006e; /*Instagram pink*/
-        }
-      </style>
     </div>
     <div class="copyright">© 2026-2025 محمد الباقر - From Python To Executable جميع الحقوق مفتوحة</div>
   </footer>
 
-  <script>
-    const toggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    toggle?.addEventListener('click', () => navLinks.classList.toggle('active'));
-
-    window.addEventListener('scroll', () => document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50));
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => e.target.classList.toggle('visible', e.isIntersecting));
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-up, .card, .lang-item, .review-card, .feature-category').forEach(el => observer.observe(el));
-
-    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if(target) window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
-      navLinks.classList.remove('active');
-    }));
-
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        if(link.textContent.trim().startsWith('English')) {
-          document.documentElement.setAttribute('dir', 'ltr');
-        } else {
-          document.documentElement.setAttribute('dir', 'rtl');
-        }
-      });
-    });
-
-    function setDirection() {
-      const lang = navigator.language || navigator.userLanguage;
-      if(lang.startsWith('en')) {
-        document.documentElement.setAttribute('dir', 'ltr');
-      } else {
-        document.documentElement.setAttribute('dir', 'rtl');
-      }
-    }
-  </script>
+  <script src="assets/script.js"></script>
 </body>
 </html>
